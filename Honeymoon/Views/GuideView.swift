@@ -21,8 +21,7 @@ struct GuideView: View {
                 
                 Text("Get Started")
                     .fontWeight(.black)
-                    .font(.largeTitle)
-                    .foregroundStyle(.pink)
+                    .modifier(TitleModifier())
                 
                 Text("Discover and pick the perfect destinaiton for your romantic Honeymoon!")
                     .lineLimit(nil)
@@ -59,14 +58,7 @@ struct GuideView: View {
                     dismiss()
                 }) {
                     Text("Continue".uppercased())
-                        .font(.headline)
-                        .padding()
-                        .frame(minWidth: 0, maxWidth: .infinity)
-                        .background(
-                            Capsule()
-                                .fill(.pink)
-                        )
-                        .foregroundStyle(.white)
+                        .modifier(ButtonModifier())
                 }
             } //: VSTACK
             .frame(minWidth: 0, maxWidth: .infinity)
