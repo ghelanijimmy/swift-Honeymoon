@@ -15,6 +15,8 @@ struct ContentView: View {
     
     @GestureState private var dragState = DragState.inactive
     
+    private let dragAreaThreshold: CGFloat = 65.0
+    
     // MARK: - CARD VIEWS
     var cardViews: [CardView] = {
         var views = [CardView]()
@@ -84,6 +86,18 @@ struct ContentView: View {
                 ForEach(cardViews) {cardView in
                     cardView
                         .zIndex(isTopCard(cardView: cardView) ? 1 : 0)
+                        .overlay(
+                            ZStack {
+                                // MARK: - SYMBOLS
+                                Image(systemName: "x.circle")
+                                    .modifier(SymbolModifier())
+                                    .opacity(dragState.translation.width < -dragAreaThreshold && isTopCard(cardView: cardView) ? 1.0 : 0.0)
+                                
+                                Image(systemName: "heart.circle")
+                                    .modifier(SymbolModifier())
+                                    .opacity(dragState.translation.width > dragAreaThreshold && isTopCard(cardView: cardView) ? 1.0 : 0.0)
+                            }
+                        )
                         .offset(x: isTopCard(cardView: cardView) ? dragState.translation.width : 0, y: isTopCard(cardView: cardView) ? dragState.translation.height : 0)
                         .scaleEffect(dragState.isDragging && isTopCard(cardView: cardView) ? 0.85 : 1)
                         .rotationEffect(Angle(degrees: isTopCard(cardView: cardView) ? Double(dragState.translation.width / 12) : 0))
